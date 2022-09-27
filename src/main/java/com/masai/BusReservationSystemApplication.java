@@ -11,7 +11,7 @@ public class BusReservationSystemApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(BusReservationSystemApplication.class, args);
-		System.out.println("main");
+		
 	}
 
 }
