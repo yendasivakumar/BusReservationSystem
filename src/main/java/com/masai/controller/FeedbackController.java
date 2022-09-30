@@ -1,36 +1,45 @@
 package com.masai.controller;
 
-import java.time.LocalDateTime;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.masai.model.Feedback;
+import com.masai.service.BusService;
 import com.masai.service.FeedbackService;
+import com.masai.service.UserService;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
-
-@ControllerAdvice
+@RestController
 public class FeedbackController {
-		
-	@Autowired
-	private FeedbackService feedbackService;
 	
-	@PostMapping("/feedback")
-	public ResponseEntity<Feedback> addFeedbackHandler(@RequestBody Feedback feedback) {
-		
-		feedback.setFeebackDate(LocalDateTime.now());
-		Feedback fb = feedbackService.addFeedback(feedback);
-		return new ResponseEntity<Feedback>(fb,HttpStatus.CREATED);
+	@Autowired
+	private FeedbackService fService;
+	
+	@Autowired
+	private BusService bService;
+	
+	@Autowired
+	private UserService uService;
+	
+	@PostMapping("/addFeedback/{userId}/{busId}")
+	public ResponseEntity<Feedback> createBus(@Valid @RequestBody Feedback feedback, @PathVariable("userId") Integer uId, @PathVariable("busId") Integer bId) {
+		return new ResponseEntity<Feedback>(fService.addFeedback(feedback, bId, uId),HttpStatus.CREATED);
+//		http://localhost:8080/addFeedback/userId/busId
 	}
-	@GetMapping("/fb")
-	public ResponseEntity<Feedback> getFeedback(@RequestParam("id") Integer id ) {
-		Feedback fb = feedbackService.getFeebFeedback(id);
-		return new ResponseEntity<Feedback>(fb,HttpStatus.OK);
-	}
+
 }
+
+//RequestMapping
+//{
+//"driverRating":6,
+//"serviceRating": 3,
+//"overallRating": 5,
+//"comments": "Can Improve",
+//"feedbackdate": "2022-11-03",
+//}
