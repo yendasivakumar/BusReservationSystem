@@ -43,6 +43,17 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<MyErrorDetails>(err,HttpStatus.BAD_REQUEST);
 	}
 	
+	@ExceptionHandler(FeedBackException.class)
+	public ResponseEntity<MyErrorDetails> feedbackException(FeedBackException ie,WebRequest wr){
+		MyErrorDetails err = new MyErrorDetails();
+		
+		err.setTimestamp(LocalDateTime.now());
+		err.setMessage(ie.getMessage());
+		err.setDetails(wr.getDescription(false));
+		
+		return new ResponseEntity<MyErrorDetails>(err,HttpStatus.BAD_REQUEST);
+	}
+	
 
 	
 	@ExceptionHandler(NoHandlerFoundException.class)
