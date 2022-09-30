@@ -35,11 +35,12 @@ public class BusServiceImpl implements BusService{
 				bus.setRoute(r);
 			}
 			else {
-				
+      
 				throw new RouteException("No such route found");
+//			
 			}
-		
 			return bDao.save(bus);
+			
 		
 		}
 		else {
