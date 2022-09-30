@@ -28,8 +28,8 @@ public class Feedback {
 	
 	private LocalDateTime feebackDate;
 	
-	@OneToOne(cascade = CascadeType.ALL)
-	private User users;
+//	@OneToOne(cascade = CascadeType.ALL)
+//	private User users;
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	private Bus bus;
@@ -70,12 +70,12 @@ public class Feedback {
 	public void setFeebackDate(LocalDateTime feebackDate) {
 		this.feebackDate = feebackDate;
 	}
-	public User getUsers() {
-		return users;
-	}
-	public void setUsers(User users) {
-		this.users = users;
-	}
+//	public User getUsers() {
+//		return users;
+//	}
+//	public void setUsers(User users) {
+//		this.users = users;
+//	}
 	public Bus getBus() {
 		return bus;
 	}
