@@ -2,6 +2,8 @@ package com.masai.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.masai.model.Bus;
 import com.masai.service.BusService;
 
@@ -23,13 +24,13 @@ public class BusController {
 	private BusService bService;
 	
 	@PostMapping("/addBus")
-	public ResponseEntity<Bus> createBus(@RequestBody Bus bus) {
+	public ResponseEntity<Bus> createBus(@Valid @RequestBody Bus bus) {
 		return new ResponseEntity<Bus>(bService.addBus(bus),HttpStatus.CREATED);
 //		http://localhost:8080/addBus
 	}
 	
 	@PutMapping("/updateBus")
-	public ResponseEntity<Bus> updateIt(@RequestBody Bus bus){
+	public ResponseEntity<Bus> updateIt(@Valid @RequestBody Bus bus){
 		return new ResponseEntity<Bus>(bService.updateBus(bus),HttpStatus.ACCEPTED);
 //		http://localhost:8080/updateBus
 	}

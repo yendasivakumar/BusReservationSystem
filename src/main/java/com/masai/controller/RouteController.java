@@ -2,6 +2,8 @@ package com.masai.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,13 +25,13 @@ public class RouteController {
 	private RouteService rService;
 	
 	@PostMapping("/addRoute")
-	public ResponseEntity<Route> createRoute(@RequestBody Route route) {
+	public ResponseEntity<Route> createRoute(@Valid @RequestBody Route route) {
 		return new ResponseEntity<Route>(rService.addRoute(route),HttpStatus.CREATED);
 //		http://localhost:8080/addRoute
 	}
 	
 	@PutMapping("/updateRoute")
-	public ResponseEntity<Route> updateIt(@RequestBody Route route){
+	public ResponseEntity<Route> updateIt(@Valid @RequestBody Route route){
 		return new ResponseEntity<Route>(rService.updateRoute(route),HttpStatus.ACCEPTED);
 //		http://localhost:8080/updateRoute
 	}

@@ -29,7 +29,8 @@ public class RouteServiceImpl implements RouteService{
 			System.out.println("Size is : "+busList.size());
 			
 			for(int i=0;i<busList.size();i++) {
-				
+				busList.get(i).setRouteFrom(route.getRouteFrom());
+				busList.get(i).setRouteTo(route.getRouteTo());
 				busList.get(i).setRoute(route);
 				bDao.save(busList.get(i));
 			}
