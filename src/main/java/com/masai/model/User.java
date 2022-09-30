@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,7 +25,9 @@ public class User {
 	private String lastName ;
 	private Long contect ;
 	private String email ;
-//	private Reservation reservation  ;
+	
+	@OneToOne
+	private Reservation reservation  ;
 	
 	public User(String userName, String password, String firstName, String lastName, Long contect, String email) {
 		super();
