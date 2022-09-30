@@ -11,18 +11,18 @@ import javax.persistence.Id;
 public class Reservation {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int no_of_reservation;
+	private int reservationId;
 	private String reservationStatus;
 	private String reservationType;
 	private LocalDate reservationDate;
 	private LocalTime reservationTime;
 	private String source;
 	private String destination;
-	public int getNo_of_reservation() {
-		return no_of_reservation;
+	public int getreservationId() {
+		return reservationId;
 	}
-	public void setNo_of_reservation(int no_of_reservation) {
-		this.no_of_reservation = no_of_reservation;
+	public void setreservationId(int reservationId) {
+		this.reservationId = reservationId;
 	}
 	public String getReservationStatus() {
 		return reservationStatus;
