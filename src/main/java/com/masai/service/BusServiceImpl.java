@@ -1,6 +1,5 @@
 package com.masai.service;
 
-import java.lang.StackWalker.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,14 +35,6 @@ public class BusServiceImpl implements BusService{
 				bus.setRoute(r);
 			}
 			else {
-//				r = new Route();
-//				r.setRouteFrom(bus.getRouteFrom());
-//				r.setRouteTo(bus.getRouteTo());
-//				r.setDistance(120);
-//				
-//				List<Bus> list = r.getBus();
-//				list.add(bus);
-//				bus.setRoute(r);
 				
 				throw new RouteException("No such route found");
 			}
@@ -63,9 +54,6 @@ public class BusServiceImpl implements BusService{
 		if(opt.isPresent()) {
 			Bus existingBus = opt.get();
 			
-//			Optional<Route> ropt = rDao.findById(existingBus.getRoute().getRouteId());
-//			rDao.delete(ropt.get());
-			
 			Route r = rDao.findByRouteFromAndRouteTo(bus.getRouteFrom(),bus.getRouteTo());
 			if(r!=null) {
 				List<Bus> list = r.getBus();
@@ -73,15 +61,6 @@ public class BusServiceImpl implements BusService{
 				bus.setRoute(r);
 			}
 			else {
-//				r = new Route();
-//				r.setRouteFrom(bus.getRouteFrom());
-//				r.setRouteTo(bus.getRouteTo());
-//				r.setDistance((int)Math.random() * ((50 - 200) + 1) + 50);
-//				
-//				List<Bus> list = r.getBus();
-//				list.add(bus);
-//				bus.setRoute(r);
-				
 				throw new RouteException("No such route found");
 			}
 			
