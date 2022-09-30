@@ -1,6 +1,5 @@
 package com.masai.service;
 
-import java.lang.StackWalker.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,19 +35,20 @@ public class BusServiceImpl implements BusService{
 				bus.setRoute(r);
 			}
 			else {
-//				r = new Route();
-//				r.setRouteFrom(bus.getRouteFrom());
-//				r.setRouteTo(bus.getRouteTo());
-//				r.setDistance(120);
+////				r = new Route();
+////				r.setRouteFrom(bus.getRouteFrom());
+////				r.setRouteTo(bus.getRouteTo());
+////				r.setDistance(120);
+////				
+////				List<Bus> list = r.getBus();
+////				list.add(bus);
+////				bus.setRoute(r);
 //				
-//				List<Bus> list = r.getBus();
-//				list.add(bus);
-//				bus.setRoute(r);
-				
 				throw new RouteException("No such route found");
+//			
 			}
-		
 			return bDao.save(bus);
+			
 		
 		}
 		else {

@@ -4,34 +4,43 @@ import java.time.LocalDateTime;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
-import javax.validation.constraints.Pattern;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonFormatTypes;
+import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonValueFormat;
+
+
 
 
 @Entity
 public class Feedback {
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer feedBackId;
 	
-	@Pattern(regexp = "[1-5]{1}",message = "Driver rating should be in between 1 to 5")
+//	@Pattern(regexp = "[1-5]{1}",message = "Driver rating should be in between 1 to 5")
 	private Integer driverRating;
 	
-	@Pattern(regexp = "[1-5]{1}",message = "Service rating should be in between 1 to 5")
+//	@Pattern(regexp = "[1-5]{1}",message = "Service rating should be in between 1 to 5")
 	private Integer serviceRating;
 	
-	@Pattern(regexp = "[1-5]{1}",message = "Overall rating should be in between 1 to 5")
+//	@Pattern(regexp = "[1-5]{1}",message = "Overall rating should be in between 1 to 5")
 	private Integer overallRating;
 	
 	private String comments;
 	
-	
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private LocalDateTime feebackDate;
 	
 //	@OneToOne(cascade = CascadeType.ALL)
-//	private User users;
+////	private User users;
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne
+	@JoinColumn(name="bus_id",referencedColumnName = "busId")
 	private Bus bus;
 	
 	public Integer getFeedBackId() {
