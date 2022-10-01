@@ -40,9 +40,3 @@ public class User {
 	}
 
 }
-
-/*
- * Take Reservation class  ;
- */
-
-

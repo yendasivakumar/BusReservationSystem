@@ -1,5 +1,6 @@
 package com.masai.controller;
 
+import java.time.LocalTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,15 +20,13 @@ import com.masai.service.ReservationService;
 
 @RestController
 public class ReservationController {
-	
-
 	@Autowired
 	private ReservationService reservationservice ;
 	
-	@PostMapping("/reservation")
-	public ResponseEntity<Reservation> addReservationHandler(@RequestBody Reservation reservation) {
-		
-	Reservation saveReservation = 	reservationservice.addReservation(reservation);
+	@PostMapping("/reservation/{userId}")
+	public ResponseEntity<Reservation> addReservationHandler(@PathVariable("userId") Integer userId, @RequestBody Reservation reservation) throws ReservationException {
+		reservation.setReservationTime(LocalTime.now());
+	Reservation saveReservation = 	reservationservice.addReservation(reservation,userId);
 		
 	return new ResponseEntity<Reservation>(saveReservation,HttpStatus.CREATED);
 		
@@ -42,7 +41,7 @@ public class ReservationController {
 	}
 	
 	
-	@GetMapping
+	@GetMapping("reservations")
 	public ResponseEntity<List<Reservation>> viewAllReservationHandler() throws ReservationException{
 		
 		List<Reservation> reservations = reservationservice.viewAllReservation();
@@ -51,23 +50,35 @@ public class ReservationController {
 	}
 	
 	
-	@DeleteMapping("/reservation/{reservationId}")
-	public ResponseEntity<Reservation> deleteReservationByRollHandler(@PathVariable("reservationId") Integer reservationId) throws ReservationException{
+	@DeleteMapping("/reservation/{userId}/{reservationId}")
+	public ResponseEntity<Reservation> deleteReservationByRollHandler(@PathVariable("userId") Integer userId, @PathVariable("reservationId") Integer reservationId) throws ReservationException{
 		
-		Reservation reservation= reservationservice.deleteReservation(reservationId);
+		Reservation reservation= reservationservice.deleteReservation(reservationId,userId);
 		
 		return new ResponseEntity<Reservation>(reservation,HttpStatus.OK);
 		
 	}
 	
-	@PutMapping("/reservation")
-	public ResponseEntity<Reservation> updateReservationHandler(@RequestBody Reservation reservation) throws ReservationException{
-		
-		Reservation updatedReservation= reservationservice.updateReservation(reservation);
-		
-		
+	@PutMapping("/reservation/{userId}")
+	public ResponseEntity<Reservation> updateReservationHandler(@PathVariable("userId") Integer userId, @RequestBody Reservation reservation) throws ReservationException{
+		reservation.setReservationTime(LocalTime.now());
+		Reservation updatedReservation= reservationservice.updateReservation(reservation,userId);
 		return new ResponseEntity<Reservation>(updatedReservation,HttpStatus.OK);
 		
 	}
     
 }
+
+//request body
+//{
+//"reservationStatus": "reserved",
+//"reservationType": "Vip",
+//"reservationDate": "2022-11-04",
+//"reservationTime": "08:30:00",
+//"source": "Hyd",
+//"destination": "Vizag"
+//}
+
+
+
+
