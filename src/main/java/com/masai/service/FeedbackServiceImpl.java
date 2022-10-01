@@ -44,6 +44,15 @@ public class FeedbackServiceImpl implements FeedbackService{
 				throw new UserException("No User present with given id : "+userid);
 			}
 			else {
+				List<Feedback> givenfeedbacks = feedbackDao.findByUser(userOpt.get());
+				
+				for(Feedback fb : givenfeedbacks) {
+					if(fb.getBus().getBusId() == busId) {
+						throw new FeedBackException("Feedback already given... try for other buses");
+					}
+
+				}
+				
 				Bus b = busOpt.get();
 				User u = userOpt.get();
 				
@@ -70,7 +79,7 @@ public class FeedbackServiceImpl implements FeedbackService{
 
 			return  feedbackDao.save(feedback);
 		}
-		throw new FeedBackException("Feed not exists");
+		throw new FeedBackException("Feedback does not exist to update");
 	}
 
 	@Override
@@ -78,14 +87,14 @@ public class FeedbackServiceImpl implements FeedbackService{
 		Optional<Feedback> feedback =  feedbackDao.findById(feedbackId);
 		if(feedback.isPresent())
 			return feedback.get();
-		throw new FeedBackException("Feed does not exists with this id :"+feedbackId);
+		throw new FeedBackException("Feedback does not exist for id :"+feedbackId);
 	}
 
 	@Override
 	public List<Feedback> viewAllFeedback() throws FeedBackException {
 		List<Feedback> feedbackList =  feedbackDao.findAll();
 		if(feedbackList.size() == 0)
-			throw new FeedBackException("No feedbacks present");
+			throw new FeedBackException("No feedbacks... Database Empty!");
 		return feedbackList;
 	}
 
