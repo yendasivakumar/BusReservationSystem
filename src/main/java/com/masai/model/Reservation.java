@@ -3,10 +3,12 @@ package com.masai.model;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 @Entity
 public class Reservation {
 	@Id
@@ -18,6 +20,9 @@ public class Reservation {
 	private LocalTime reservationTime;
 	private String source;
 	private String destination;
+	@OneToOne(cascade = CascadeType.ALL)
+	private Bus bus ;
+	
 	public int getreservationId() {
 		return reservationId;
 	}
