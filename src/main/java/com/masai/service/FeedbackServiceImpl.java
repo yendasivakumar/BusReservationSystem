@@ -22,13 +22,14 @@ public class FeedbackServiceImpl implements FeedbackService {
 	@Override
 	public Feedback addFeedback(Feedback feedback) {
 		
-		System.out.println("impl 01");
+		System.out.println(feedback);
 		Optional<Bus> bus = busDao.findById(feedback.getBus().getBusId());
-		
-		if(bus != null)
+		if(bus.isPresent())
 			return feedbackDao.save(feedback);
+
+		throw new RuntimeException("Bus not present");
 		
-		return null;
+	
 	
 	}
 
@@ -36,7 +37,10 @@ public class FeedbackServiceImpl implements FeedbackService {
 	public Feedback getFeebFeedback(Integer id) {
 		Optional<Feedback> fb =  feedbackDao.findById(id);
 		
-		return fb.get();
+		if(fb.isPresent())
+			return fb.get();
+		throw new RuntimeException("Empty Feedback");
+		
 		
 	}
 

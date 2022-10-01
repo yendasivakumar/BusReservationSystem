@@ -13,9 +13,16 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonFormatTypes;
 import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonValueFormat;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 
+
+
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Feedback {
 	@Id
@@ -33,9 +40,9 @@ public class Feedback {
 	
 	private String comments;
 	
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	private LocalDateTime feebackDate;
-	
+//	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+//	private LocalDateTime feebackDate;
+//	
 //	@OneToOne(cascade = CascadeType.ALL)
 ////	private User users;
 	
@@ -73,12 +80,12 @@ public class Feedback {
 	public void setComments(String comments) {
 		this.comments = comments;
 	}
-	public LocalDateTime getFeebackDate() {
-		return feebackDate;
-	}
-	public void setFeebackDate(LocalDateTime feebackDate) {
-		this.feebackDate = feebackDate;
-	}
+//	public LocalDateTime getFeebackDate() {
+//		return feebackDate;
+//	}
+//	public void setFeebackDate(LocalDateTime feebackDate) {
+//		this.feebackDate = feebackDate;
+//	}
 //	public User getUsers() {
 //		return users;
 //	}
