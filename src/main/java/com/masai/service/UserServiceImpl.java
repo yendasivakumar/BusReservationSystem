@@ -17,8 +17,8 @@ public class UserServiceImpl  implements UserService {
 
 	@Override
 	public User addUser(User user) throws UserException  {
-		Optional<User> opt = userDao.findById(user.getUserLoginId()) ;
-		if(opt.isPresent()) {
+		User opt= userDao.findByContact(user.getContact()) ;
+		if(opt != null) {
 			throw new UserException("User already Present!") ;
 		}else {
 			return userDao.save(user) ;

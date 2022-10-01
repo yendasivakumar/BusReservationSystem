@@ -8,7 +8,4 @@ import com.masai.model.Feedback;
 @Repository
 public interface FeedbackDao extends JpaRepository<Feedback, Integer>{
 	
-	
-	
-	
 }

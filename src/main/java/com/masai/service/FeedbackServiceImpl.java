@@ -19,21 +19,23 @@ import com.masai.repository.UserDao;
 @Service
 public class FeedbackServiceImpl implements FeedbackService{
 
+
 	@Autowired
-	private FeedbackDao fDao;
+	private FeedbackDao feedbackDao;
+
 	
 	@Autowired
-	private BusDao bDao;
+	private BusDao busDao;
 	
 	@Autowired
-	private UserDao uDao;
+	private UserDao userDao;
 	
 	@Override
 	public Feedback addFeedback(Feedback feedback, Integer busId , Integer userid) throws FeedBackException {
 		
 		if(feedback!=null) {
-			Optional<Bus> busOpt = bDao.findById(busId);
-			Optional<User> userOpt = uDao.findById(userid);
+			Optional<Bus> busOpt = busDao.findById(busId);
+			Optional<User> userOpt = userDao.findById(userid);
 			
 			if(busOpt.isEmpty()) {
 				throw new BusException("No Bus present with given id : "+busId);
@@ -49,29 +51,42 @@ public class FeedbackServiceImpl implements FeedbackService{
 				feedback.setUser(u);
 			}
 			
-			return fDao.save(feedback);
+			return feedbackDao.save(feedback);
 		}
 		else {
 			throw new FeedBackException("Null value is not accepted");
 		}
 	}
 
-	@Override
+
 	public Feedback updateFeedback(Feedback feedback) throws FeedBackException {
-		// TODO Auto-generated method stub
-		return null;
+		Optional<Feedback> fb =  feedbackDao.findById(feedback.getFeedBackId());
+		if(fb.isPresent()) {
+			Bus bus = fb.get().getBus();
+			User user = fb.get().getUser();
+			
+			feedback.setBus(bus);
+			feedback.setUser(user);
+
+			return  feedbackDao.save(feedback);
+		}
+		throw new FeedBackException("Feed not exists");
 	}
 
 	@Override
 	public Feedback viewFeedback(int feedbackId) throws FeedBackException {
-		// TODO Auto-generated method stub
-		return null;
+		Optional<Feedback> feedback =  feedbackDao.findById(feedbackId);
+		if(feedback.isPresent())
+			return feedback.get();
+		throw new FeedBackException("Feed does not exists with this id :"+feedbackId);
 	}
 
 	@Override
 	public List<Feedback> viewAllFeedback() throws FeedBackException {
-		// TODO Auto-generated method stub
-		return null;
+		List<Feedback> feedbackList =  feedbackDao.findAll();
+		if(feedbackList.size() == 0)
+			throw new FeedBackException("No feedbacks present");
+		return feedbackList;
 	}
 
 }
