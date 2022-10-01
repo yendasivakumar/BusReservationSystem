@@ -1,5 +1,6 @@
 package com.masai.service;
 
+<<<<<<< HEAD
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,5 +26,12 @@ public interface ReservationService {
 	
 	public Reservation updateReservation(Reservation reservation)throws ReservationException;
 	
+=======
+import com.masai.model.Reservation;
+
+public interface ReservationService {
+
+    public Reservation saveReservation(Reservation reservation);
+>>>>>>> main
 	
 }

@@ -8,12 +8,20 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+<<<<<<< HEAD
 import javax.persistence.OneToOne;
+=======
+
+>>>>>>> main
 @Entity
 public class Reservation {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+<<<<<<< HEAD
 	private int reservationId;
+=======
+	private Integer no_of_reservation;
+>>>>>>> main
 	private String reservationStatus;
 	private String reservationType;
 	private LocalDate reservationDate;
