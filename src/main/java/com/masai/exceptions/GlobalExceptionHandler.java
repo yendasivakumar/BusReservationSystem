@@ -83,4 +83,21 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<MyErrorDetails>(error,HttpStatus.NOT_FOUND);
 	}
 	
+	//For reservation 
+	
+	
+	@ExceptionHandler(ReservationException.class)
+	public ResponseEntity<MyErrorDetails> reservationExceptionHandEntity(ReservationException re, WebRequest req){
+		
+		MyErrorDetails err = new MyErrorDetails();
+				err.setTimestamp(LocalDateTime.now());
+		err.setMessage(re.getMessage());
+		err.setDetails(req.getDescription(false));
+		
+		return new ResponseEntity<MyErrorDetails>(err,HttpStatus.NOT_FOUND);
+		
+	}
+	
+
+	
 }

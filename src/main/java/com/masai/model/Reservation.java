@@ -3,27 +3,39 @@ package com.masai.model;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+<<<<<<< HEAD
+import javax.persistence.OneToOne;
+=======
 
+>>>>>>> main
 @Entity
 public class Reservation {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+<<<<<<< HEAD
+	private int reservationId;
+=======
 	private Integer no_of_reservation;
+>>>>>>> main
 	private String reservationStatus;
 	private String reservationType;
 	private LocalDate reservationDate;
 	private LocalTime reservationTime;
 	private String source;
 	private String destination;
-	public int getNo_of_reservation() {
-		return no_of_reservation;
+	@OneToOne(cascade = CascadeType.ALL)
+	private Bus bus ;
+	
+	public int getreservationId() {
+		return reservationId;
 	}
-	public void setNo_of_reservation(int no_of_reservation) {
-		this.no_of_reservation = no_of_reservation;
+	public void setreservationId(int reservationId) {
+		this.reservationId = reservationId;
 	}
 	public String getReservationStatus() {
 		return reservationStatus;
