@@ -7,11 +7,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+
 @Entity
 public class Reservation {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int no_of_reservation;
+	private Integer no_of_reservation;
 	private String reservationStatus;
 	private String reservationType;
 	private LocalDate reservationDate;

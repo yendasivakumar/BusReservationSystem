@@ -12,6 +12,15 @@ import org.springframework.web.context.request.WebRequest;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 	
+
+	@ExceptionHandler(UserException.class)
+	public ResponseEntity<MyErrorDetails> userExceptionHandler(UserException userExp, WebRequest req ){
+		
+		MyErrorDetails med = new MyErrorDetails(LocalDateTime.now(), userExp.getMessage(), req.getDescription(false) ) ;
+		
+		return new ResponseEntity<MyErrorDetails>(med, HttpStatus.BAD_REQUEST) ;
+	}
+
 	@ExceptionHandler(BusException.class)
 	public ResponseEntity<MyErrorDetails> busException(BusException ie,WebRequest wr){
 		MyErrorDetails err = new MyErrorDetails();
@@ -34,6 +43,18 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<MyErrorDetails>(err,HttpStatus.BAD_REQUEST);
 	}
 	
+	@ExceptionHandler(FeedBackException.class)
+	public ResponseEntity<MyErrorDetails> feedbackException(FeedBackException ie,WebRequest wr){
+		MyErrorDetails err = new MyErrorDetails();
+		
+		err.setTimestamp(LocalDateTime.now());
+		err.setMessage(ie.getMessage());
+		err.setDetails(wr.getDescription(false));
+		
+		return new ResponseEntity<MyErrorDetails>(err,HttpStatus.BAD_REQUEST);
+	}
+	
+
 	
 	@ExceptionHandler(NoHandlerFoundException.class)
 	public ResponseEntity<MyErrorDetails> mynotFoundHandler(NoHandlerFoundException nfe,WebRequest req)  {

@@ -1,5 +1,5 @@
 package com.masai.service;
 
-public class AdminService {
-
+public interface AdminService {
+	
 }
