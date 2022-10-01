@@ -62,7 +62,7 @@ public class UserServiceImpl  implements UserService {
 	}
 
 	@Override
-	public List<User> viewallUsers() throws UserException {
+	public List<User> viewAllUsers() throws UserException {
 		List<User> allUsers =  userDao.findAll() ;
 		
 		if(allUsers.size() != 0) {

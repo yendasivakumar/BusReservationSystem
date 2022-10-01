@@ -6,25 +6,65 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.masai.exceptions.BusException;
 import com.masai.exceptions.ReservationException;
+import com.masai.exceptions.UserException;
+import com.masai.model.Bus;
 import com.masai.model.Reservation;
+import com.masai.model.ReservationStatus;
+import com.masai.model.User;
+import com.masai.repository.BusDao;
 import com.masai.repository.ReservationDao;
+import com.masai.repository.UserDao;
 @Service
-public class ReservationServiceImpl implements ReservationService {
+public class ReservationServiceimpl implements ReservationService {
 	@Autowired
-	private ReservationDao dao;
+	private ReservationDao reservationdao;
+	
+	@Autowired
+	private UserDao userDao;
+	
+	@Autowired
+	private BusDao busDao;
 
 	@Override
-	public Reservation addReservation(Reservation reservation) {
-	Reservation saveReservation = dao.save(reservation);
-	
-       return saveReservation;
+	public Reservation addReservation(Reservation reservation, int userId) {
+		Reservation r = null;
+		
+		Optional<User> userOpt = userDao.findById(userId);
+		List<Bus> busList = busDao.findByRouteFromAndRouteTo(reservation.getSource(), reservation.getDestination());
+		
+		if(userOpt.isEmpty()) {
+			throw new UserException("Invalid user Id");
+		}
+		else if(busList.size()==0){
+			throw new BusException("Sorry No buses present in that route to reserve");
+		}
+		else {
+			for(Bus b : busList) {
+				if(b.getAvailableSeats()>0) {
+					b.setAvailableSeats(b.getAvailableSeats()-reservation.getNo_of_reservation());
+					User u = userOpt.get();
+					reservation.setBus(b);
+					reservation.setReservationStatus(ReservationStatus.BOOKED.name());
+					u.setReservation(reservation);
+					r = reservationdao.save(reservation);
+					break;
+				}
+			}
+		}
+		
+		if(r==null) {
+			throw new ReservationException("No seats left to Book... update Failed");
+		}
+		
+		return r;
 	}
 
 	@Override
-	public Reservation viewReservation(Integer reservationId) throws ReservationException {
+	public Reservation viewReservation(int reservationId) throws ReservationException {
 	
-	Optional<Reservation>opt= dao.findById(reservationId);
+	Optional<Reservation>opt= reservationdao.findById(reservationId);
 	
 	return opt.orElseThrow(()-> new ReservationException("Reserevation does not exit with reservationId "+reservationId));
 	}
@@ -32,50 +72,84 @@ public class ReservationServiceImpl implements ReservationService {
 	@Override
 	public List<Reservation> viewAllReservation() throws ReservationException {
 	
-		List<Reservation> reservation = dao.findAll();
+		List<Reservation> reservation = reservationdao.findAll();
 		
 		if(reservation.size()>0) {
 			return reservation ;
 		}
 		else
-			throw new ReservationException("No reservation Found");
+			throw new ReservationException("No reservation Found... DataBase Empty!");
 		
 	}
 
 	@Override
-	public Reservation deleteReservation(Integer reservationId) throws ReservationException {
-		Reservation existingReservation= dao.findById(reservationId).orElseThrow(() -> new ReservationException("Reservation does not exist with reservationId "+reservationId));;
+	public Reservation deleteReservation(int reservationId, int userId) throws ReservationException {
 		
-		dao.delete(existingReservation);
+		Optional<Reservation> rOpt = reservationdao.findById(reservationId);
+		if(rOpt.isPresent()) {
+			Reservation r = rOpt.get();
+			
+//			Optional<Bus> busOpt = busDao.findById(r.getBus());
+//			 Bus b = busOpt.get();
+			Bus b = r.getBus();
+			 b.setAvailableSeats(b.getAvailableSeats()+r.getNo_of_reservation());
+			
+			r.setReservationStatus(ReservationStatus.CANCELED.name());
+			r.setBus(null);
+			
+			Optional<User> userOpt = userDao.findById(userId);
+				User u = userOpt.get();
+				u.setReservation(null);
 		
-		
-		return existingReservation;
-		
+			reservationdao.delete(r);
+			return r;
+		}
+		else {
+			throw new ReservationException("No reservation found with Id : "+reservationId);
+		}
 		
 	}
 	
 	@Override
-	public Reservation updateReservation(Reservation reservation) throws ReservationException {
+	public Reservation updateReservation(Reservation reservation,int userId) throws ReservationException {
+		Reservation r = null;
 		
-		Optional<Reservation> opt= dao.findById(reservation.getreservationId());
+		Optional<User> userOpt = userDao.findById(userId);
+		List<Bus> busList = busDao.findByRouteFromAndRouteTo(reservation.getSource(), reservation.getDestination());
 		
-		
-		if(opt.isPresent()) {
-			
-			return dao.save(reservation);
-			
-			
-			
+		if(userOpt.isEmpty()) {
+			throw new UserException("Invalid user Id");
 		}
-		else
-			throw new ReservationException("Invalid Reservation details");
+		else if(busList.size()==0){
+			throw new BusException("Sorry No buses present in that route to reserve");
+		}
+		else {
+			for(Bus b : busList) {
+				if(b.getAvailableSeats()>0) {
+					b.setAvailableSeats(b.getAvailableSeats()-reservation.getNo_of_reservation());
+					User u = userOpt.get();
+					reservation.setBus(b);
+					reservation.setReservationStatus(ReservationStatus.BOOKED.name());
+					u.setReservation(reservation);
+					r = reservationdao.save(reservation);
+					break;
+				}
+			}
+		}
 		
+		if(r==null) {
+			throw new ReservationException("No seats left to Book... update Failed");
+		}
 		
-		
-		
-		
+		return r;
 		
 	}
+
+//	@Override
+//	public List<Reservation> getAllReservation(LocalDate date) throws ReservationException {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 
 	
 }
