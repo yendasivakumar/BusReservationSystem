@@ -1,6 +1,6 @@
 package com.masai.exceptions;
 
-public class ReservationException extends Exception {
+public class ReservationException extends RuntimeException {
 
 	public ReservationException() {
 		

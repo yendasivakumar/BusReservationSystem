@@ -24,20 +24,12 @@ import com.masai.service.UserService;
 
 @RestController
 public class FeedbackController {
-	
-
-
 
 	@Autowired
 	private FeedbackService feedbackService;
+
 	
-	@Autowired
-	private BusService busService;
-	
-	@Autowired
-	private UserService userService;
-	
-	@PostMapping("/addFeedback/{userId}/{busId}")
+	@PostMapping("/feedback/{userId}/{busId}")
 	public ResponseEntity<Feedback> registerFeedback(@Valid @RequestBody Feedback feedback, @PathVariable("userId") Integer uId, @PathVariable("busId") Integer bId) throws FeedBackException{
 		feedback.setFeedbackdatetime(LocalDateTime.now());
 		return new ResponseEntity<Feedback>(feedbackService.addFeedback(feedback, bId, uId),HttpStatus.CREATED);
@@ -45,7 +37,7 @@ public class FeedbackController {
 
 	}
 	
-	@PutMapping("/feedback/update")
+	@PutMapping("/feedback")
 	public ResponseEntity<Feedback> updateFeedback(@Valid @RequestBody Feedback feedback) throws FeedBackException{
 		feedback.setFeedbackdatetime(LocalDateTime.now());
 		return new ResponseEntity<Feedback>(feedbackService.updateFeedback(feedback),HttpStatus.OK);
@@ -59,7 +51,7 @@ public class FeedbackController {
 		
 	}
 	
-	@GetMapping("/feedback/all")
+	@GetMapping("/feedbacks")
 	public ResponseEntity<List<Feedback>> getAllFeedback() throws FeedBackException{
 		List<Feedback> feedbackList = feedbackService.viewAllFeedback();
 		return new ResponseEntity<List<Feedback>>(feedbackList,HttpStatus.OK);
@@ -69,7 +61,7 @@ public class FeedbackController {
 
 }
 
-//RequestMapping
+//RequestBody
 //{
 //"driverRating":6,
 //"serviceRating": 3,

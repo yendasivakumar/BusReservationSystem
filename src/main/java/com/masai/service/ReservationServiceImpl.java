@@ -19,7 +19,7 @@ public class ReservationServiceImpl implements ReservationService {
 	Reservation saveReservation = dao.save(reservation);
 	
        return saveReservation;
-}
+	}
 
 	@Override
 	public Reservation viewReservation(Integer reservationId) throws ReservationException {
