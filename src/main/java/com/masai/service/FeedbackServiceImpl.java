@@ -62,7 +62,13 @@ public class FeedbackServiceImpl implements FeedbackService{
 	public Feedback updateFeedback(Feedback feedback) throws FeedBackException {
 		Optional<Feedback> fb =  feedbackDao.findById(feedback.getFeedBackId());
 		if(fb.isPresent()) {
-			return feedbackDao.save(feedback);
+			Bus bus = fb.get().getBus();
+			User user = fb.get().getUser();
+			
+			feedback.setBus(bus);
+			feedback.setUser(user);
+
+			return  feedbackDao.save(feedback);
 		}
 		throw new FeedBackException("Feed not exists");
 	}

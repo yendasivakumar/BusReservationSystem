@@ -1,5 +1,6 @@
 package com.masai.controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -37,27 +38,28 @@ public class FeedbackController {
 	private UserService userService;
 	
 	@PostMapping("/addFeedback/{userId}/{busId}")
-	public ResponseEntity<Feedback> createBus(@Valid @RequestBody Feedback feedback, @PathVariable("userId") Integer uId, @PathVariable("busId") Integer bId) throws FeedBackException{
+	public ResponseEntity<Feedback> registerFeedback(@Valid @RequestBody Feedback feedback, @PathVariable("userId") Integer uId, @PathVariable("busId") Integer bId) throws FeedBackException{
+		feedback.setFeedbackdatetime(LocalDateTime.now());
 		return new ResponseEntity<Feedback>(feedbackService.addFeedback(feedback, bId, uId),HttpStatus.CREATED);
 		
 
 	}
 	
-	@PutMapping("/feedback")
-	public ResponseEntity<Feedback> updateFeedback(@RequestBody Feedback feedback) throws FeedBackException{
-		
+	@PutMapping("/feedback/update")
+	public ResponseEntity<Feedback> updateFeedback(@Valid @RequestBody Feedback feedback) throws FeedBackException{
+		feedback.setFeedbackdatetime(LocalDateTime.now());
 		return new ResponseEntity<Feedback>(feedbackService.updateFeedback(feedback),HttpStatus.OK);
 		
 			
 	}
 	
-	@GetMapping("/feedback/id")
+	@GetMapping("/feedback/{id}")
 	public ResponseEntity<Feedback> getFeedback(@PathVariable("id") Integer feedbackId) throws FeedBackException{
 		return new ResponseEntity<Feedback>(feedbackService.viewFeedback(feedbackId),HttpStatus.OK);
 		
 	}
 	
-	@GetMapping("/feedback")
+	@GetMapping("/feedback/all")
 	public ResponseEntity<List<Feedback>> getAllFeedback() throws FeedBackException{
 		List<Feedback> feedbackList = feedbackService.viewAllFeedback();
 		return new ResponseEntity<List<Feedback>>(feedbackList,HttpStatus.OK);

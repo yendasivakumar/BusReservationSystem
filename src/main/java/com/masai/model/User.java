@@ -23,19 +23,19 @@ public class User {
 	private String password ;
 	private String firstName ;
 	private String lastName ;
-	private Long contect ;
+	private String contact ;
 	private String email ;
 	
 	@OneToOne
 	private Reservation reservation  ;
 	
-	public User(String userName, String password, String firstName, String lastName, Long contect, String email) {
+	public User(String userName, String password, String firstName, String lastName, String contact, String email) {
 		super();
 		this.userName = userName;
 		this.password = password;
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.contect = contect;
+		this.contact = contact;
 		this.email = email;
 	}
 
