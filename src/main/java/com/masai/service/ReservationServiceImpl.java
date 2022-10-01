@@ -17,7 +17,7 @@ import com.masai.repository.BusDao;
 import com.masai.repository.ReservationDao;
 import com.masai.repository.UserDao;
 @Service
-public class ReservationServiceimpl implements ReservationService {
+public class ReservationServiceImpl implements ReservationService {
 	@Autowired
 	private ReservationDao reservationdao;
 	
