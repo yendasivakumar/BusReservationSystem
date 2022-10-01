@@ -43,7 +43,7 @@
 - Update the port number, username and password as per your local database config.
 
 ```
-    server.port=8021
+    server.port=8888
 
     spring.datasource.url=jdbc:mysql://localhost:3306/busdb;
     spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
