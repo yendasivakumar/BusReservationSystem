@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.masai.model.Route;
@@ -25,20 +26,20 @@ public class RouteController {
 	private RouteService rService;
 	
 	@PostMapping("/addRoute")
-	public ResponseEntity<Route> createRoute(@Valid @RequestBody Route route) {
-		return new ResponseEntity<Route>(rService.addRoute(route),HttpStatus.CREATED);
+	public ResponseEntity<Route> createRoute(@Valid @RequestBody Route route,@RequestParam(required = false) String key ) {
+		return new ResponseEntity<Route>(rService.addRoute(route,key),HttpStatus.CREATED);
 //		http://localhost:8080/addRoute
 	}
 	
 	@PutMapping("/updateRoute")
-	public ResponseEntity<Route> updateIt(@Valid @RequestBody Route route){
-		return new ResponseEntity<Route>(rService.updateRoute(route),HttpStatus.ACCEPTED);
+	public ResponseEntity<Route> updateIt(@Valid @RequestBody Route route,@RequestParam(required = false) String key){
+		return new ResponseEntity<Route>(rService.updateRoute(route,key),HttpStatus.ACCEPTED);
 //		http://localhost:8080/updateRoute
 	}
 	
 	@DeleteMapping("deleteRoute/{routeId}")
-	public ResponseEntity<Route> deleteIt(@PathVariable("routeId") Integer Id){
-		return new ResponseEntity<Route>(rService.deleteRoute(Id), HttpStatus.OK);
+	public ResponseEntity<Route> deleteIt(@PathVariable("routeId") Integer Id, @RequestParam(required = false) String key){
+		return new ResponseEntity<Route>(rService.deleteRoute(Id,key), HttpStatus.OK);
 //		http://localhost:8080/deleteRoute/3
 	}
 	
