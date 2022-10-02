@@ -34,6 +34,19 @@ Following ER diagram indicates the database tables and thier interaction which w
 ![Untitled Workspace](https://github.com/yendasivakumar/BusReservationSystem/blob/main/ER%20Diagram.png)
 
 
+## Features
+
+* User and Admin authentication & validation with session uuid having.
+* Admin Features:
+    * Administrator Role of the entire application
+    * Only registered admins with valid session token can add/update/delete driver or customer from main database
+    * Admin can access the details of different users, buses and routes.
+* Customer Features:
+    * Registering themselves with application, and logging in to get the valid session token
+    * Viewing list of available bus and booking a reservatioon.
+    * Only logged in users can update his/her reservation, profile updation and other features.
+
+
 
 
 ## Contributors
