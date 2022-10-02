@@ -72,7 +72,7 @@ Following ER diagram indicates the database tables and thier interaction which w
 
 ## API Module Endpoints
 
-### Customer Module
+### User Module
 
 
 
@@ -88,7 +88,6 @@ Following ER diagram indicates the database tables and thier interaction which w
 * `PUT /reservation/userId` : Update reservation details by user id
 * `PUT /BRSystem/user` : Update user details by himself
 * `PUT /feedback` : To update feedback given by user.
-* `DELETE /user/userId` : To delete account user by  userId
 * `DELETE /reservation/userId/reservationId` : Cancel reservation by reservationId, userId
 
 
