@@ -68,12 +68,13 @@ Following ER diagram indicates the database tables and thier interaction which w
     spring.datasource.password=root
 
 ```
-```
+
 
 ## API Module Endpoints
 
 ### Customer Module
 
+```
 
 * `POST /login` : Logging in user with valid mobile number & password
 * `POST /logout` : Logging out user based on session token
