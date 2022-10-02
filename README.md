@@ -29,6 +29,10 @@
 - Reservation Module
 - Feedback Module
 
+## ER Diagram
+Following ER diagram indicates the database tables and thier interaction which we are using.
+![Untitled Workspace](https://github.com/yendasivakumar/BusReservationSystem/blob/main/ER%20Diagram.png)
+
 
 
 
