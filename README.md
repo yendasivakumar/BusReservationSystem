@@ -74,7 +74,7 @@ Following ER diagram indicates the database tables and thier interaction which w
 
 ### Customer Module
 
-```
+
 
 * `POST /login` : Logging in user with valid mobile number & password
 * `POST /logout` : Logging out user based on session token
@@ -91,4 +91,4 @@ Following ER diagram indicates the database tables and thier interaction which w
 * `DELETE /user/userId` : To delete account user by  userId
 * `DELETE /reservation/userId/reservationId` : Cancel reservation by reservationId, userId
 
-```
+
