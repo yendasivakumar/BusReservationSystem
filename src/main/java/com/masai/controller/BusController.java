@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.masai.model.Bus;
 import com.masai.service.BusService;
@@ -24,20 +25,20 @@ public class BusController {
 	private BusService bService;
 	
 	@PostMapping("/addBus")
-	public ResponseEntity<Bus> createBus(@Valid @RequestBody Bus bus) {
-		return new ResponseEntity<Bus>(bService.addBus(bus),HttpStatus.CREATED);
+	public ResponseEntity<Bus> createBus(@Valid @RequestBody Bus bus,@RequestParam(required = false) String key) {
+		return new ResponseEntity<Bus>(bService.addBus(bus,key),HttpStatus.CREATED);
 //		http://localhost:8080/addBus
 	}
 	
 	@PutMapping("/updateBus")
-	public ResponseEntity<Bus> updateIt(@Valid @RequestBody Bus bus){
-		return new ResponseEntity<Bus>(bService.updateBus(bus),HttpStatus.ACCEPTED);
+	public ResponseEntity<Bus> updateIt(@Valid @RequestBody Bus bus,@RequestParam(required = false) String key){
+		return new ResponseEntity<Bus>(bService.updateBus(bus,key),HttpStatus.ACCEPTED);
 //		http://localhost:8080/updateBus
 	}
 	
 	@DeleteMapping("deleteBus/{busId}")
-	public ResponseEntity<Bus> deleteIt(@PathVariable("busId") Integer Id){
-		return new ResponseEntity<Bus>(bService.deleteBus(Id), HttpStatus.OK);
+	public ResponseEntity<Bus> deleteIt(@PathVariable("busId") Integer Id,@RequestParam(required = false) String key){
+		return new ResponseEntity<Bus>(bService.deleteBus(Id,key), HttpStatus.OK);
 //		http://localhost:8080/deleteBus/3
 	}
 	
