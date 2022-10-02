@@ -68,4 +68,26 @@ Following ER diagram indicates the database tables and thier interaction which w
     spring.datasource.password=root
 
 ```
+```
 
+## API Module Endpoints
+
+### Customer Module
+
+
+* `POST /login` : Logging in user with valid mobile number & password
+* `POST /logout` : Logging out user based on session token
+* `POST /BRSystem/user` : To register user himself
+* `POST /feedback/userId/busId` : To give feedback by user based on userId and busId
+* `GET /bus/busId` : Getting the details of the bus by its id
+* `GET /buses` : Getting All the buses
+* `GET /busByType/busType` : Getting details of bus by its type
+* `GET /reservation/userId` :  To do reservation by user by his/her id
+* `GET /reservation/reservationId` : Getting the reservation details by reservation id
+* `PUT /reservation/userId` : Update reservation details by user id
+* `PUT /BRSystem/user` : Update user details by himself
+* `PUT /feedback` : To update feedback given by user.
+* `DELETE /user/userId` : To delete account user by  userId
+* `DELETE /reservation/userId/reservationId` : Cancel reservation by reservationId, userId
+
+```
