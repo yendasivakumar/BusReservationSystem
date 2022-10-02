@@ -7,8 +7,8 @@ import com.masai.model.Feedback;
 
 public interface FeedbackService {
 	
-	public Feedback addFeedback(Feedback feedback, Integer busId, Integer userid) throws FeedBackException;
-	public Feedback updateFeedback(Feedback feedback) throws FeedBackException;
+	public Feedback addFeedback(Feedback feedback, Integer busId, Integer userid,String key) throws FeedBackException;
+	public Feedback updateFeedback(Feedback feedback,String key) throws FeedBackException;
 	public Feedback viewFeedback(int feedbackId) throws FeedBackException;
 	public List<Feedback> viewAllFeedback() throws FeedBackException;
 	
