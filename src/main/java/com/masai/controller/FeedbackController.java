@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,17 +31,15 @@ public class FeedbackController {
 
 	
 	@PostMapping("/feedback/{userId}/{busId}")
-	public ResponseEntity<Feedback> registerFeedback(@Valid @RequestBody Feedback feedback, @PathVariable("userId") Integer uId, @PathVariable("busId") Integer bId) throws FeedBackException{
+	public ResponseEntity<Feedback> registerFeedback(@Valid @RequestBody Feedback feedback, @PathVariable("userId") Integer uId, @PathVariable("busId") Integer bId,@RequestParam(required = false) String key ) throws FeedBackException{
 		feedback.setFeedbackdatetime(LocalDateTime.now());
-		return new ResponseEntity<Feedback>(feedbackService.addFeedback(feedback, bId, uId),HttpStatus.CREATED);
-		
-
+		return new ResponseEntity<Feedback>(feedbackService.addFeedback(feedback, bId, uId,key),HttpStatus.CREATED);
 	}
 	
 	@PutMapping("/feedback")
-	public ResponseEntity<Feedback> updateFeedback(@Valid @RequestBody Feedback feedback) throws FeedBackException{
+	public ResponseEntity<Feedback> updateFeedback(@Valid @RequestBody Feedback feedback,@RequestParam(required = false) String key ) throws FeedBackException{
 		feedback.setFeedbackdatetime(LocalDateTime.now());
-		return new ResponseEntity<Feedback>(feedbackService.updateFeedback(feedback),HttpStatus.OK);
+		return new ResponseEntity<Feedback>(feedbackService.updateFeedback(feedback,key),HttpStatus.OK);
 		
 			
 	}
@@ -56,8 +55,6 @@ public class FeedbackController {
 		List<Feedback> feedbackList = feedbackService.viewAllFeedback();
 		return new ResponseEntity<List<Feedback>>(feedbackList,HttpStatus.OK);
 	}
-	
-	
 
 }
 

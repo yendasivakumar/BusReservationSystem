@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.masai.exceptions.UserException;
@@ -29,22 +30,22 @@ public class UserController {
 	private UserService userService ;
 	
 	@PostMapping("/user")
-	public ResponseEntity<User> registerUserHandler(@RequestBody User user) throws UserException{
-		User addedUser  = userService.addUser(user) ;
+	public ResponseEntity<User> registerUserHandler(@RequestParam(required = false) String key,@RequestBody User user) throws UserException{
+		User addedUser  = userService.addUser(user,key) ;
 		return new ResponseEntity<User>(addedUser, HttpStatus.CREATED) ;
 //		http://localhost:8888/BRSystem/user
 	}
 	
 	@PutMapping("/user")
-	public ResponseEntity<User> updateUserHandler(@RequestBody User user) throws UserException{
-		User updatedUser  = userService.updateUser(user) ;
+	public ResponseEntity<User> updateUserHandler(@RequestParam(required = false) String key, @RequestBody User user) throws UserException{
+		User updatedUser  = userService.updateUser(user,key) ;
 		return new ResponseEntity<User>(updatedUser, HttpStatus.OK) ;
 //		http://localhost:8888/BRSystem/user
 	}
 	
 	@DeleteMapping("/user/{id}")
-	public ResponseEntity<User> daleteUserHandler(@PathVariable int id) throws UserException{
-		User daleteUser  = userService.deleteUser(id) ;
+	public ResponseEntity<User> daleteUserHandler(@PathVariable int id, @RequestParam String key) throws UserException{
+		User daleteUser  = userService.deleteUser(id,key) ;
 		return new ResponseEntity<User>(daleteUser, HttpStatus.OK) ;
 //		http://localhost:8888/BRSystem/user/id
 	}

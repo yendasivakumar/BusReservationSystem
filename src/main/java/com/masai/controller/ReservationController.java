@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.masai.exceptions.ReservationException;
@@ -24,9 +25,9 @@ public class ReservationController {
 	private ReservationService reservationservice ;
 	
 	@PostMapping("/reservation/{userId}")
-	public ResponseEntity<Reservation> addReservationHandler(@PathVariable("userId") Integer userId, @RequestBody Reservation reservation) throws ReservationException {
+	public ResponseEntity<Reservation> addReservationHandler(@PathVariable("userId") Integer userId,@RequestParam(required = false) String key,@RequestBody Reservation reservation) throws ReservationException {
 		reservation.setReservationTime(LocalTime.now());
-	Reservation saveReservation = 	reservationservice.addReservation(reservation,userId);
+	Reservation saveReservation = 	reservationservice.addReservation(reservation,userId,key);
 		
 	return new ResponseEntity<Reservation>(saveReservation,HttpStatus.CREATED);
 		
@@ -51,18 +52,18 @@ public class ReservationController {
 	
 	
 	@DeleteMapping("/reservation/{userId}/{reservationId}")
-	public ResponseEntity<Reservation> deleteReservationByRollHandler(@PathVariable("userId") Integer userId, @PathVariable("reservationId") Integer reservationId) throws ReservationException{
+	public ResponseEntity<Reservation> deleteReservationByRollHandler(@PathVariable("userId") Integer userId, @PathVariable("reservationId") Integer reservationId,@RequestParam(required = false) String key) throws ReservationException{
 		
-		Reservation reservation= reservationservice.deleteReservation(reservationId,userId);
+		Reservation reservation= reservationservice.deleteReservation(reservationId,userId,key);
 		
 		return new ResponseEntity<Reservation>(reservation,HttpStatus.OK);
 		
 	}
 	
 	@PutMapping("/reservation/{userId}")
-	public ResponseEntity<Reservation> updateReservationHandler(@PathVariable("userId") Integer userId, @RequestBody Reservation reservation) throws ReservationException{
+	public ResponseEntity<Reservation> updateReservationHandler(@PathVariable("userId") Integer userId,@RequestParam(required = false) String key, @RequestBody Reservation reservation) throws ReservationException{
 		reservation.setReservationTime(LocalTime.now());
-		Reservation updatedReservation= reservationservice.updateReservation(reservation,userId);
+		Reservation updatedReservation= reservationservice.updateReservation(reservation,userId,key);
 		return new ResponseEntity<Reservation>(updatedReservation,HttpStatus.OK);
 		
 	}
