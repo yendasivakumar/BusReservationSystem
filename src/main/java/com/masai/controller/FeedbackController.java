@@ -51,8 +51,8 @@ public class FeedbackController {
 	}
 	
 	@GetMapping("/feedbacks")
-	public ResponseEntity<List<Feedback>> getAllFeedback() throws FeedBackException{
-		List<Feedback> feedbackList = feedbackService.viewAllFeedback();
+	public ResponseEntity<List<Feedback>> getAllFeedback(@RequestParam String adminKey) throws FeedBackException{
+		List<Feedback> feedbackList = feedbackService.viewAllFeedback(adminKey);
 		return new ResponseEntity<List<Feedback>>(feedbackList,HttpStatus.OK);
 	}
 

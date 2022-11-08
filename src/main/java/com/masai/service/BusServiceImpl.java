@@ -35,10 +35,10 @@ public class BusServiceImpl implements BusService{
 	@Override
 	public Bus addBus(Bus bus,String key) throws BusException, RouteException {
 		CurrentAdminSession loggedInAdmin= sDao.findByUuid(key);
-		
-		if(loggedInAdmin == null) {
-			throw new AdminException("Looks like admin has not logedin or input key in incorrect, Please check");
+		if(bus.getSeats() < bus.getAvailableSeats()) {
+			throw new BusException("wrong data input. Available seat can not be greater total seat.") ;
 		}
+		if(loggedInAdmin == null)  throw new AdminException("Looks like admin has not logedin or input key in incorrect, Please check");
 		else {
 		
 			Bus b = bDao.findByDriverName(bus.getDriverName());
@@ -51,13 +51,9 @@ public class BusServiceImpl implements BusService{
 					bus.setRoute(r);
 				}
 				else {
-	      
 					throw new RouteException("No such route found");
-				
 				}
-				return bDao.save(bus);
-				
-			
+				return bDao.save(bus); 
 			}
 			else {
 				throw new BusException("Bus already exists with given driver name");
@@ -126,7 +122,7 @@ CurrentAdminSession loggedInAdmin= sDao.findByUuid(key);
 			return b;
 		}
 		else {
-			throw new BusException("No Bus present with given id : "+busId);
+			throw new BusException("No Bus present with id : "+busId);
 		}
 	}
 
@@ -137,7 +133,7 @@ CurrentAdminSession loggedInAdmin= sDao.findByUuid(key);
 			return b;
 		}
 		else {
-			throw new BusException("No Bus present with given id : "+busType);
+			throw new BusException("No Bus present with : "+busType);
 		}
 	}
 
@@ -148,7 +144,7 @@ CurrentAdminSession loggedInAdmin= sDao.findByUuid(key);
 			return b;
 		}
 		else {
-			throw new BusException("No Buses present");
+			throw new BusException("No Bus present");
 		}
 	}
 

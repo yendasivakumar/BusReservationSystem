@@ -43,9 +43,9 @@ public class ReservationController {
 	
 	
 	@GetMapping("reservations")
-	public ResponseEntity<List<Reservation>> viewAllReservationHandler() throws ReservationException{
+	public ResponseEntity<List<Reservation>> viewAllReservationHandler(@RequestParam String key) throws ReservationException{
 		
-		List<Reservation> reservations = reservationservice.viewAllReservation();
+		List<Reservation> reservations = reservationservice.viewAllReservation(key);
 		
 		return new ResponseEntity<List<Reservation>>(reservations,HttpStatus.OK);
 	}

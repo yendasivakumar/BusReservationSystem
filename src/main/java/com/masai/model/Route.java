@@ -41,7 +41,7 @@ public class Route {
 	private String routeTo;
 	
 	@NotNull(message = "seats should not be null")
-	@Range(min=30,max=300, message = "seats should be of between 0 to 30")
+	@Range(min=30,max=1000, message = "distance must be in 30km-1000km range")
 	private Integer distance;
 	
 	@OneToMany(cascade = CascadeType.ALL,mappedBy = "route")

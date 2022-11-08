@@ -10,11 +10,13 @@ import com.masai.exceptions.BusException;
 import com.masai.exceptions.ReservationException;
 import com.masai.exceptions.UserException;
 import com.masai.model.Bus;
+import com.masai.model.CurrentAdminSession;
 import com.masai.model.CurrentUserSession;
 import com.masai.model.Reservation;
 import com.masai.model.ReservationStatus;
 import com.masai.model.User;
 import com.masai.repository.BusDao;
+import com.masai.repository.CurrentAdminSessionDao;
 import com.masai.repository.CurrentUserSessionDao;
 import com.masai.repository.ReservationDao;
 import com.masai.repository.UserDao;
@@ -31,6 +33,10 @@ public class ReservationServiceImpl implements ReservationService {
 
 	@Autowired
 	private CurrentUserSessionDao usDao;
+	
+	@Autowired
+	private CurrentAdminSessionDao adminDao;
+	
 
 	@Override
 	public Reservation addReservation(Reservation reservation, int userId,String key) {
@@ -38,40 +44,48 @@ public class ReservationServiceImpl implements ReservationService {
 		
 		CurrentUserSession loggedInUser= usDao.findByUuid(key);
 		
-		if(loggedInUser == null) {
-			throw new UserException("Please provide a valid key");
-		}
+		if(loggedInUser == null)  throw new UserException("Please provide a valid key");
 		else {
 			
 			Optional<User> userOpt = userDao.findById(userId);
-			if(userOpt.isEmpty()) {
-				throw new UserException("No User present with given id");
-			}
+			if(userOpt.isEmpty())  throw new UserException("No User present with given id");
+			
 			if(userOpt.get().getUserLoginId() == loggedInUser.getUserId()) {
 				List<Bus> busList = busDao.findByRouteFromAndRouteTo(reservation.getSource(), reservation.getDestination());
 				
-				if(userOpt.isEmpty()) {
-					throw new UserException("Invalid user Id");
-				}
+				if(userOpt.isEmpty())  throw new UserException("Invalid user Id");
 				else if(busList.size()==0){
 					throw new BusException("Sorry No buses present in that route to reserve");
 				}
 				else {
+					int count =0 ;
 					for(Bus b : busList) {
-						if(b.getAvailableSeats()>0) {
-							b.setAvailableSeats(b.getAvailableSeats()-reservation.getNo_of_reservation());
-							User u = userOpt.get();
-							reservation.setBus(b);
-							reservation.setReservationStatus(ReservationStatus.BOOKED.name());
-							u.setReservation(reservation);
-							r = reservationdao.save(reservation);
-							break;
+						if(b.getAvailableSeats()>0 ) {
+							if(reservation.getReservationType().equalsIgnoreCase(b.getBusType())) {
+								b.setAvailableSeats(b.getAvailableSeats()-reservation.getNo_of_reservation());
+								User u = userOpt.get();
+								reservation.setBus(b);
+								reservation.setReservationStatus(ReservationStatus.BOOKED.name());
+								u.setReservation(reservation);
+								r = reservationdao.save(reservation);
+								break;
+							}
+							else if(reservation.getReservationType() == null) {
+								b.setAvailableSeats(b.getAvailableSeats()-reservation.getNo_of_reservation());
+								User u = userOpt.get();
+								reservation.setBus(b);
+								reservation.setReservationStatus(ReservationStatus.BOOKED.name());
+								u.setReservation(reservation);
+								r = reservationdao.save(reservation);
+								break;
+							}
+							count++ ;
 						}
 					}
 				}
 				
 				if(r==null) {
-					throw new ReservationException("No seats left to Book... update Failed");
+					throw new ReservationException("No seats left to Book... or for "+ reservation.getReservationType() + " bus no seat available");
 				}
 				
 				return r;
@@ -90,18 +104,7 @@ public class ReservationServiceImpl implements ReservationService {
 	return opt.orElseThrow(()-> new ReservationException("Reserevation does not exit with reservationId "+reservationId));
 	}
 
-	@Override
-	public List<Reservation> viewAllReservation() throws ReservationException {
 	
-		List<Reservation> reservation = reservationdao.findAll();
-		
-		if(reservation.size()>0) {
-			return reservation ;
-		}
-		else
-			throw new ReservationException("No reservation Found... DataBase Empty!");
-		
-	}
 
 	@Override
 	public Reservation deleteReservation(int reservationId, int userId,String key) throws ReservationException {
@@ -196,6 +199,20 @@ public class ReservationServiceImpl implements ReservationService {
 		
 	}
 
+	@Override
+	public List<Reservation> viewAllReservation(String key) throws ReservationException {
+
+		CurrentAdminSession adminSession = adminDao.findByUuid(key);
+		if(adminSession ==null)  throw new ReservationException("admin key is not correct") ;
+		List<Reservation> reservation = reservationdao.findAll();
+		
+		if(reservation.size()>0) {
+			return reservation ;
+		}
+		else
+			throw new ReservationException("No reservation Found... DataBase Empty!");
+		
+	}
 //	@Override
 //	public List<Reservation> getAllReservation(LocalDate date) throws ReservationException {
 //		// TODO Auto-generated method stub

@@ -39,6 +39,9 @@ public class FeedbackServiceImpl implements FeedbackService{
 	@Autowired
 	private CurrentUserSessionDao usDao;
 	
+	@Autowired
+	private CurrentAdminSessionDao adminDao;
+	
 	@Override
 	public Feedback addFeedback(Feedback feedback, Integer busId , Integer userid,String key) throws FeedBackException {
 		
@@ -118,7 +121,9 @@ public class FeedbackServiceImpl implements FeedbackService{
 	}
 
 	@Override
-	public List<Feedback> viewAllFeedback() throws FeedBackException {
+	public List<Feedback> viewAllFeedback(String key) throws FeedBackException {
+		CurrentAdminSession adminSession = adminDao.findByUuid(key);
+		if(adminSession ==null)  throw new FeedBackException("admin key is not correct") ;
 		List<Feedback> feedbackList =  feedbackDao.findAll();
 		if(feedbackList.size() == 0)
 			throw new FeedBackException("No feedbacks... Database Empty!");
