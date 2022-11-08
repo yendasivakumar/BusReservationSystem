@@ -29,9 +29,6 @@
 - Reservation Module
 - Feedback Module
 
-## ER Diagram
-Following ER diagram indicates the database tables and thier interaction which we are using.
-![Untitled Workspace](https://github.com/yendasivakumar/BusReservationSystem/blob/main/ER%20Diagram.png)
 
 
 ## Features
@@ -46,14 +43,20 @@ Following ER diagram indicates the database tables and thier interaction which w
     * Viewing list of available bus and booking a reservatioon.
     * Only logged in users can update his/her reservation, profile updation and other features.
 
-
-
-
 ## Contributors
 - [@Vamsi Krishna](https://github.com/Vamsi4612)
 - [@Vineet Kumar Singh](https://github.com/vineet221713)
 - [@Shubham Garg](https://github.com/shubhamgarg7239)
 - [@Siva Kumar](https://github.com/yendasivakumar)
+
+
+## ER Diagram
+Following ER diagram indicates the database tables and thier interaction which we are using.
+![Untitled Workspace](https://github.com/yendasivakumar/BusReservationSystem/blob/main/ER%20Diagram.png)
+
+
+
+
 ## Installation & Run
 
 - Before running the API server, you should update the database config inside the [application.properties](https://github.com/yendasivakumar/BusReservationSystem/tree/main/src/main/resources) file.
@@ -62,7 +65,7 @@ Following ER diagram indicates the database tables and thier interaction which w
 ```
     server.port=8888
 
-    spring.datasource.url=jdbc:mysql://localhost:3306/busdb;
+    spring.datasource.url=jdbc:mysql://localhost:8888/busdb;
     spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
     spring.datasource.username=root
     spring.datasource.password=root
