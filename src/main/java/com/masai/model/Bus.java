@@ -33,14 +33,14 @@ public class Bus {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer busId ;
 	
-	@NotNull(message = "busName should not be null")
+	@NotNull(message = "Bus Name should not be null")
 	@Pattern(regexp="^[a-zA-Z_]+( [a-zA-Z_]+)*$", message = "Bus name should contain only letters")
-	@Size(min=3,max=20, message = "busName should be of size between 3 to 20 charcters")
+	@Size(min=3,max=20, message = "Bus name should be of size between 3 to 20 charcters")
 	private String busName;
 	
 	@NotNull(message = "driverName should not be null")
 	@Pattern(regexp="^[a-zA-Z_]+( [a-zA-Z_]+)*$", message = "driverName should contain only letters")
-	@Size(min=3,max=20, message = "busName should be of size between 3 to 20 charcters")
+	@Size(min=3,max=20, message = "driverName should be of size between 3 to 20 charcters")
 	private String driverName;
 	
 	@NotNull(message = "busType should not be null")
